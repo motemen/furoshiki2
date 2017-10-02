@@ -5,8 +5,9 @@ set -e
 export EMAIL=test@example.com
 
 root=$(cd "$(dirname "$0")" && cd .. && pwd)
+export PYTHONPATH="$root"
 
-FURO2=${FURO2-"python3 $root/furo2/furo2.py"}
+FURO2=${FURO2-"python3 -m furo2.furo2"}
 
 main() {
     python3 --version
