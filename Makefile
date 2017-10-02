@@ -1,7 +1,7 @@
 test: test-local test-docker
 
 test-local:
-	./t/01-furo2
+	FURO2=$$VIRTUAL_ENV/bin/furo2 ./t/01-furo2
 
 test-docker:
 	docker build t

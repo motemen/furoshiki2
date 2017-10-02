@@ -11,6 +11,7 @@ FURO2=${FURO2-"python3 $root/furo2/furo2.py"}
 main() {
     python3 --version
     git version
+    $FURO2 version
 
     logsrepo=$(mktemp -d)
     logsdir=$(mktemp -d)

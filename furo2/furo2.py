@@ -13,7 +13,7 @@ import sys
 import tempfile
 from datetime import datetime
 from pathlib import Path
-from __init__ import version
+from . import version
 
 logs_dir = os.getenv('FURO_LOGS_DIR') or '~/.furo2/logs'
 
@@ -191,7 +191,7 @@ def command_history(args):
 
 
 def command_version(args):
-    print(f"furoshiki2 version {version}")
+    print('furoshiki2 version %s' % version)
 
 
 def command_help():
