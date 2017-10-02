@@ -1,0 +1,49 @@
+#!/bin/bash
+
+set -e
+
+export EMAIL=test@example.com
+
+root=$(cd "$(dirname "$0")" && cd .. && pwd)
+
+FURO2=${FURO2-"python3 $root/furo2/furo2.py"}
+
+main() {
+    python3 --version
+    git version
+
+    logsrepo=$(mktemp -d)
+    logsdir=$(mktemp -d)
+    workdir=$(mktemp -d)
+
+    git init --quiet --bare "$logsrepo"
+
+    export FURO_LOGS_REPOSITORY="$logsrepo"
+    export FURO_LOGS_DIR="$logsdir"
+
+    cd "$workdir"
+    git init --quiet
+    git commit --quiet --allow-empty -m 'init'
+    git config remote.origin.url https://git.example.com/u/repo
+
+    $FURO2 exec echo 'Hello furoshiki!'
+    $FURO2 history
+
+    $FURO2 exec echo 'f  u'  'r  o'
+    $FURO2 history
+    $FURO2 history show HEAD | grep 'f  u r  o'
+
+    cat > "$workdir"/project.yml <<YAML
+project: git.example.com/another/repo
+YAML
+
+    $FURO2 exec echo 'Hello another/repo!'
+    $FURO2 history
+}
+
+die() {
+    echo "$*" >&2
+    exit 1
+}
+
+main
