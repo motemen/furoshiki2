@@ -145,7 +145,7 @@ def command_exec(command):
         if e.returncode != 2:
             raise e
 
-    git(['add', str(log_file)])
+    git(['add', '--force', str(log_file)])
     git(['commit', '--quiet', '--message', headline])
 
     if has_branch:
