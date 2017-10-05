@@ -197,6 +197,8 @@ def command_history(args):
         os.chdir(str(project_logs_dir))
         git(args)
     else:
+        if cmd is not None:
+            args = [cmd] + args
         os.chdir(str(project_logs_dir))
         git(['log', '--no-decorate', '--pretty=%h [%ad] (%an) %s'] + args)
 

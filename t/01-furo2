@@ -35,6 +35,7 @@ main() {
     $FURO2 exec echo 'f  u'  'r  o'
     $FURO2 history
     $FURO2 history show HEAD | grep 'f  u r  o'
+    test $($FURO2 history -1 | wc -l) -eq 1
 
     cat > "$workdir"/project.yml <<YAML
 project: git.example.com/another/repo
