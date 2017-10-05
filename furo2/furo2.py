@@ -162,21 +162,30 @@ def command_exec(command):
 def command_history(args):
     repo_path, project_path, project_logs_dir = _init_project()
 
-    os.chdir(str(project_logs_dir))
-
     if len(args) == 0:
         cmd = None
     else:
         cmd, *args = args
 
     if cmd == 'show':
+        os.chdir(str(project_logs_dir))
         os.environ['GIT_EXTERNAL_DIFF'] = 'sh -c "cat $5"'
         git(['show', '--pretty=format:', '--ext-diff'] + args)
     elif cmd == 'pull':
-        git(['pull', 'origin', project_path])
+        if not project_logs_dir.exists():
+            try:
+                project_logs_dir.parent.mkdir(parents=True)
+            except FileExistsError:
+                pass
+            logs_repo = get_logs_repo()
+            git(['clone', logs_repo,
+                '-b', project_path, str(project_logs_dir)])
+        else:
+            os.chdir(str(project_logs_dir))
+            git(['pull', 'origin', project_path])
     elif cmd == 'fix':
         logs_repo = get_logs_repo()
-        os.chdir('..')
+        os.chdir(str(project_logs_dir.parent))
         if input('rm -rf %s [y/N]: ' % project_logs_dir) == 'y':
             shutil.rmtree(str(project_logs_dir))
             try:
@@ -185,8 +194,10 @@ def command_history(args):
             except subprocess.CalledProcessError:
                 pass
     elif cmd == 'git':
+        os.chdir(str(project_logs_dir))
         git(args)
     else:
+        os.chdir(str(project_logs_dir))
         git(['log', '--no-decorate', '--pretty=%h [%ad] (%an) %s'] + args)
 
 

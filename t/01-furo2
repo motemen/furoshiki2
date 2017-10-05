@@ -16,6 +16,7 @@ main() {
 
     logsrepo=$(mktemp -d)
     logsdir=$(mktemp -d)
+    logsdir2=$(mktemp -d)
     workdir=$(mktemp -d)
 
     git init --quiet --bare "$logsrepo"
@@ -40,6 +41,10 @@ project: git.example.com/another/repo
 YAML
 
     $FURO2 exec echo 'Hello another/repo!'
+    $FURO2 history
+
+    export FURO_LOGS_DIR="$logsdir2"
+    $FURO2 history pull
     $FURO2 history
 }
 
