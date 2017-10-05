@@ -47,6 +47,10 @@ YAML
     export FURO_LOGS_DIR="$logsdir2"
     $FURO2 history pull
     $FURO2 history
+
+    if FURO_LOGS_REPOSITORY= $FURO2 exec echo 'this must not be executed' 2> /dev/null | grep 'this must not be executed'; then
+        die 'exec should not succeed when FURO_LOGS_REPOSITORY is empty'
+    fi
 }
 
 die() {

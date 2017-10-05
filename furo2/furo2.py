@@ -85,6 +85,7 @@ def command_exec(command):
         raise UsageError()
 
     repo_path, project_path, project_logs_dir = _init_project()
+    logs_repo = get_logs_repo()
 
     log_file = project_logs_dir / \
         datetime.now().strftime('%Y/%m/%d/%H%M%S.%f.log')
@@ -127,10 +128,10 @@ def command_exec(command):
     except subprocess.CalledProcessError:
         pass
 
-    # XXX: what if current_remote differs from get_logs_repo()?
+    # XXX: what if current_remote differs from logs_repo?
     if not current_remote:
         git(['init', '--quiet'])
-        git(['remote', 'add', 'origin', get_logs_repo()])
+        git(['remote', 'add', 'origin', logs_repo])
 
     headline = (return_code != 0 and '[failed] ' or '') + ' '.join(command)
 
