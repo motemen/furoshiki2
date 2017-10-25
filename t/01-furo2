@@ -35,7 +35,10 @@ main() {
     $FURO2 exec echo 'f  u'  'r  o'
     $FURO2 history
     $FURO2 history show HEAD | grep 'f  u r  o'
-    test $($FURO2 history -1 | wc -l) -eq 1
+    test "$($FURO2 history -1 | wc -l)" -eq 1
+
+    git config remote.origin.url ssh://git@git.example.com/u/repo
+    test "$($FURO2 history -1 | wc -l)" -eq 1
 
     cat > "$workdir"/project.yml <<YAML
 project: git.example.com/another/repo
@@ -48,7 +51,7 @@ YAML
     $FURO2 history pull
     $FURO2 history
 
-    if FURO_LOGS_REPOSITORY= $FURO2 exec echo 'this must not be executed' 2> /dev/null | grep 'this must not be executed'; then
+    if FURO_LOGS_REPOSITORY='' $FURO2 exec echo 'this must not be executed' 2> /dev/null | grep 'this must not be executed'; then
         die 'exec should not succeed when FURO_LOGS_REPOSITORY is empty'
     fi
 }
