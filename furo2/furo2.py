@@ -61,7 +61,7 @@ def _init_project():
     project_file = Path(root_dir) / 'project.yml'
 
     repository = git_output(['config', 'remote.origin.url']).strip()
-    repo_path = re.sub(r'^https?://|^ssh://|\.git$', '', repository)
+    repo_path = re.sub(r'^https?://|^ssh://|^git://|\.git$', '', repository)
     repo_path = re.sub(
         r'^[a-zA-Z0-9_]+@([a-zA-Z0-9._-]+):(.*)$', r'\1/\2', repo_path)
 
