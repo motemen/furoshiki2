@@ -43,6 +43,9 @@ main() {
     git config remote.origin.url git://git.example.com/u/repo
     test "$($FURO2 history -1 | wc -l)" -eq 1
 
+    git config remote.origin.url https://user:pass@git.example.com/u/repo
+    test "$($FURO2 history -1 | wc -l)" -eq 1
+
     cat > "$workdir"/project.yml <<YAML
 project: git.example.com/another/repo
 YAML
