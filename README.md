@@ -11,7 +11,13 @@ furoshiki is a thin wrapper around CUI operation that records command execution 
 
 ## Installation
 
+With homebrew:
+
     brew install --HEAD motemen/furoshiki2/furoshiki2
+
+Or with pip:
+
+    pip3 install git+https://github.com/motemen/furoshiki2
 
 Or:
 
